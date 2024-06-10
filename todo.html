@@ -3,9 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>TodoList</title>
+    <style>
+        *{
+            font-family: sans-serif;
+        }
+        body{
+            width: 100%;
+            height: fit-content;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            
+        }
+        .container{
+            background-color: palevioletred;
+            padding: 1rem;
+            margin: 1rem;
+            display: flex;
+            border-radius: 10px;
+            gap: 1rem;
+        }
+        button{
+            padding: 1rem;
+            background-color: rgb(0, 94, 128);
+            border: none;
+            color: white;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: large;
+        }
+        input{
+            padding: 1rem;
+            border-radius: 5px;
+            font-size: larger;
+            border: none;
+        }
+        .taskcont{
+           border-radius: 10px;
+            padding: 1rem;
+            min-width: 30%;
+            width: fit-content;
+            background-color: skyblue;
+        }
+        p{
+            font-size:xx-large;
+            margin: 0;
+            font-weight: 600;
+        }
+        .taskLine{
+            justify-content: space-between;
+        }
+        .checkbox{
+            min-width: 25px;
+            height: 25px;
+        }
+    </style>
 </head>
 <body>
-    
+    <h1>TODO list</h1>
+    <div class="container">
+        <input id="taskIN" type="text"><br>
+        <button>ADD</button>
+        <button onclick="clearAll()" >All Clear</button>
+    </div>
+    <div class="taskcont"></div>
+
+
+    <script>
+        let inputValue="empty";
+
+        const taskInput= document.getElementById("taskIN")
+        taskInput.addEventListener("input",()=>{
+            inputValue= taskInput.value
+        })
+        const btn = document.querySelector("button")
+        const taskfld = document.querySelector(".taskcont")
+
+        btn.addEventListener("click",addTask)
+        document.addEventListener("keydown",(e)=>{
+            if(e.key==="Enter"){
+                addTask()
+            }
+        })
+
+        function addTask(){
+            const taskdiv= document.createElement("div")
+            taskdiv.className="taskLine"
+            taskdiv.style.display="flex"
+            taskdiv.style.width="80%"
+            taskdiv.style.gap="2rem"
+            taskdiv.style.alignItems="center"
+            taskdiv.style.margin="1rem"
+            
+            const complete= document.createElement("input")
+            complete.setAttribute("type","checkbox")
+            complete.style.padding="1rem"
+            complete.className="checkbox"
+
+            complete.addEventListener("change",()=>{
+                if(complete.checked){
+                    tasks.style.textDecoration= "line-through"
+                    tasks.style.opacity= "0.5"
+                    }else{
+                        tasks.style.opacity= "1"
+                        tasks.style.textDecoration= "none"
+                        
+                }
+            })
+
+            const tasks = document.createElement("p")
+            tasks.innerText= `${inputValue}`;
+
+
+            const rmbtn = document.createElement("button")
+            rmbtn.innerHTML="remove"
+            rmbtn.style.padding="10px"
+            rmbtn.style.fontSize="small"
+            rmbtn.style.backgroundColor="orange"
+            rmbtn.style.color="black"
+            rmbtn.style.height="fit-content"
+            rmbtn.addEventListener("click",()=>{
+                taskdiv.remove();
+            })
+            
+            if(taskInput.value===""){
+                alert("No Task")
+            }
+            else{
+            taskdiv.appendChild(complete)
+            taskdiv.appendChild(tasks)
+            taskdiv.appendChild(rmbtn)
+            taskfld.appendChild(taskdiv)
+
+            taskInput.value=""}
+           
+            
+        }
+
+        function clearAll(){
+            
+                const taskdiv= document.querySelectorAll(".taskLine");
+                taskdiv.forEach((div)=>{
+                    div.remove()
+                })
+            }
+
+
+    </script>
+
 </body>
 </html>
